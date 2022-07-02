@@ -1,0 +1,71 @@
+﻿@page
+@model BirthdayApp.Web.Pages.Admin.UserTableModel
+@{
+}
+
+<form method="post" class="row g-0 mt-3 mb-2 align-items-center justify-content-end">
+    <div class="form-floating col-2">
+        <select asp-for="OrderBy" class="form-select" onchange="OrderUsers()">
+            <option value="">Default</option>
+            <option value="username">Username</option>
+            <option value="username_desc">Username descending</option>
+            <option value="name">Name</option>
+            <option value="name_desc">Name descending</option>
+            <option value="surname">Surname</option>
+            <option value="surname_desc">Surname descending</option>
+            <option value="age">Age</option>
+            <option value="age_desc">Age descending</option>
+            <option value="next_birthday">Next birthday</option>
+            <option value="next_birthday_desc">Next birthday descending</option>
+            <option value="gender">Gender</option>
+            <option value="gender_desc">Gender descending</option>
+            <option value="city">City</option>
+            <option value="city_desc">City descending</option>
+        </select>
+        <label asp-for="OrderBy"></label>
+    </div>
+    <div class="form-floating col-3">
+        <input type="text" asp-for="Search" class="form-control" placeholder=" " />
+        <label asp-for="Search"></label>
+    </div>
+    <div class="col-1 text-center row justify-content-start ">
+        <button type="submit" id="search-and-order" class="btn pink-background px-2 py-3">Search</button>
+    </div>
+</form>
+
+<table class="table table-striped table-bordered table-responsive table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Age</th>
+            <th scope="col">Next Birthday</th>
+            <th scope="col">Gender</th>
+            <th scope="col">City</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.UsersWithCity)
+        {
+            <tr>
+                <th>@user.User.Username</th>
+                <th>@user.User.Name</th>
+                <th>@user.User.Surname</th>
+                <th>@user.User.CalculateAge()</th>
+                <th>in @user.User.CalculateNextBirthday() days</th>
+                <th>@user.User.Gender</th>
+                <th>@user.City.Name/@user.City.Country</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+<script>
+    function OrderUsers(){
+        document.getElementById("search-and-order").click()
+    }
+
+</script>
+}

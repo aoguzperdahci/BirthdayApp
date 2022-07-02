@@ -1,0 +1,76 @@
+﻿@page
+@using System.Text.Json
+@model BirthdayApp.Web.Pages.Admin.UserChartsModel
+@{
+}
+
+<div class="row mt-4">
+    <p class="fs-3 text-center mb-4">User statistics</p>
+<div class="col-lg-8">
+    <p class="text-center fs-6">Age distribution of users</p>
+    <canvas id="AgeChart" ></canvas>
+</div>
+
+<div class="col-lg-4">
+    <p class="text-center fs-6">Gender distribution of users</p>
+    <canvas id="GenderChart"></canvas>
+</div>
+</div>
+
+
+
+@section scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js" ;></script>
+
+<script>
+    const labelsAge = [
+      '0-14',
+      '15-29',
+      '30-44',
+      '45+'
+    ];
+
+    const dataAge = {
+      labels: labelsAge,
+      datasets: [{
+        label: 'Number of User',
+        backgroundColor: ['#EAA895', '#E9C278','#EAA895', '#E9C278'],
+        data: @Html.Raw(JsonSerializer.Serialize(Model.AgeChartData)),
+      }]
+    };
+
+    const configAge = {
+      type: 'bar',
+      data: dataAge
+    };
+
+    const AgeChart = new Chart(
+      document.getElementById('AgeChart'),
+      configAge
+    );
+
+      const labelsGender = [
+      'Male',
+      'Female',
+    ];
+
+    const dataGender = {
+      labels: labelsGender,
+      datasets: [{
+        label: 'Gender distribution',
+        backgroundColor: ['#E9C278', '#EAA895'],
+        data: @Html.Raw(JsonSerializer.Serialize(Model.GenderChartData)),
+      }]
+    };
+
+    const configGender = {
+      type: 'pie',
+      data: dataGender
+    };
+
+    const GenderChart = new Chart(
+      document.getElementById('GenderChart'),
+      configGender
+    );
+</script>
+}

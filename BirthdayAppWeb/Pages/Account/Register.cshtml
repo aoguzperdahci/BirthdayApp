@@ -1,0 +1,114 @@
+﻿@page
+@model BirthdayApp.Web.Pages.Account.RegisterModel
+@{
+}
+<div class="row justify-content-center">
+
+<form method="post" class="mt-3 col-xl-8 col-lg-10">
+    <div class="card align-items-center p-2">
+        <div class="text-center mt-3 mb-3 col-12">
+            <p class="fs-2 pink-color">Join today, never forget your friends birthday</p>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <input type="text" asp-for="Credentials.Username" class="form-control" placeholder=" " />
+            <label asp-for="Credentials.Username"></label>
+            <span asp-validation-for="Credentials.Username" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <input type="password" asp-for="Credentials.Password" class="form-control" placeholder=" " />
+            <label asp-for="Credentials.Password"></label>
+            <span asp-validation-for="Credentials.Password" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <input type="text" asp-for="NewUser.Name" class="form-control" placeholder=" " />
+            <label asp-for="NewUser.Name"></label>
+            <span asp-validation-for="NewUser.Name" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <input type="text" asp-for="NewUser.Surname" class="form-control" placeholder=" " />
+            <label asp-for="NewUser.Surname"></label>
+            <span asp-validation-for="NewUser.Surname" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <select asp-for="NewUser.Gender" class="form-select">
+                <option value="">Pick one</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select>
+            <label asp-for="NewUser.Gender"></label>
+            <span asp-validation-for="NewUser.Gender" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <input type="date" asp-for="NewUser.Birthdate" class="form-control" placeholder=" " />
+            <label asp-for="NewUser.Birthdate"></label>
+            <span asp-validation-for="NewUser.Birthdate" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <select asp-for="City.Country" class="form-select">
+                <option value="">Pick one</option>
+            </select>
+            <label asp-for="City.Country"></label>
+            <span asp-validation-for="City.Country" class="text-danger"></span>
+        </div>
+        <div class="form-floating col-12 mb-3">
+            <select asp-for="City.Name" class="form-select">
+                <option value="">Pick a Country</option>
+            </select>
+            <label asp-for="City.Name"></label>
+            <span asp-validation-for="City.Name" class="text-danger"></span>
+        </div>
+        <div class="col-12 mb-3 text-center">
+            <button type="submit" class="btn yellow-background px-5 py-2">Register</button>
+        </div>
+    </div>
+</form>
+</div>
+@section Scripts{
+<script>
+    let url = "https://" + "@Request.Host.Value" + "/api/"
+    document.getElementById("City_Country").addEventListener("change", async() => {
+        let country = document.getElementById("City_Country").value
+        let dropdown = document.getElementById("City_Name")
+        if(!country){
+            dropdown.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Pick a Country"
+            dropdown.appendChild(defaultOption)
+            return
+        }
+        let response =  await fetch(url+"city?countryName="+country)
+        if(response.ok){
+            let cities = await response.json()
+            dropdown.innerHTML = ""
+
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Pick one"
+            dropdown.appendChild(defaultOption)
+
+            for(const city of cities){
+                let option = document.createElement("option")
+                option.value = city
+                option.text = city
+                dropdown.appendChild(option)
+            }
+        }
+    })
+
+    let dropdown = document.getElementById("City_Country")
+    fetch(url+"country")
+    .then(r => r.ok ? r.json(): [])
+    .then(countries => {
+        for(const country of countries){
+                let option = document.createElement("option")
+                option.value = country
+                option.text = country
+                dropdown.appendChild(option)
+            }
+    })
+
+</script>
+
+<partial name="_ValidationScriptsPartial" />
+}

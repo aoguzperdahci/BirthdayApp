@@ -1,0 +1,46 @@
+﻿@page "{username?}"
+@model BirthdayApp.Web.Pages.Users.ProfileModel
+@{
+}
+<div class="card mt-4">
+    <div class="row mt-4 ms-3">
+        <div class="col-xl-2 col-lg-3 col-md-4 col-12 ">
+            <img alt="ProfilePicture" src="~/images/@Model.Profile.ProfilePicture" style="width:180px; height:180px; border-radius: 50%; margin-right:8px; " />
+        </div>
+        <div class="col-xl-10 col-lg-9 col-md-8 col-12 pe-5">
+            <div class="d-flex justify-content-between" style="margin-top:15px;">
+                <div>
+                    <p class="fs-3 mb-0">@Model.Profile.Name @Model.Profile.Surname</p>
+                    <p class="fs-5 mb-0 text-muted">@@@Model.Profile.Username</p>
+                </div>
+                @if (User.Identity.Name == Model.Profile.Username)
+                {
+                    <a asp-page="/Users/Edit" class="btn btn-secondary px-4 py-2" style=" align-self:center;">Edit</a>
+                }
+                else if (Model.CheckFollows())
+                {
+                    <form method="post">
+                        <input type="text" asp-for="Username" class="d-none" />
+                        <input type="text" id="follow" name="follow" value="true" class="d-none" />
+                        <button type="submit" class="btn pink-background px-4" style="height:55px;">Unfollow</button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post">
+                        <input type="text" asp-for="Username" class="d-none" />
+                        <input type="text" id="follow" name="follow" value="false" class="d-none" />
+                        <button type="submit" class="btn yellow-background px-4" style="height:55px;">Follow</button>
+                    </form>
+                }
+            </div>
+            <hr />
+            <p class="fs-5 ps-1">Age: @Model.Profile.CalculateAge()</p>
+            <p class="fs-5 ps-1">Birthdate: @Model.Profile.Birthdate.ToShortDateString()</p>
+            <p class="fs-5 ps-1">Next birthday: @Model.Profile.CalculateNextBirthday() days later</p>
+            <p class="fs-5 ps-1">City: @Model.City.Name/@Model.City.Country</p>
+
+        </div>
+
+    </div>
+</div>

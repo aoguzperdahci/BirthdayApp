@@ -1,0 +1,30 @@
+﻿/*ul.dropdown-menu {
+    background-color: yellow;
+}*/
+
+.navbar {
+    background-color: #E6E6E6 !important;
+}
+
+nav-item {
+    color: red !important;
+}
+
+.dropdown-menu {
+    background-color: #E6E6E6 !important;
+    margin-top: 13px;
+}
+
+#search-results {
+    background-color: white !important;
+    top: -12px;
+    right: 0px;
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    #search-results {
+        top: 5px;
+        width: 210px;
+    }
+}

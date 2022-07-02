@@ -1,0 +1,132 @@
+﻿@page
+@model BirthdayApp.Web.Pages.Users.EditModel
+@{
+}
+<div class="row justify-content-center">
+
+    <form method="post" enctype="multipart/form-data" class="mt-3 col-xl-8 col-lg-10">
+        <div class="card align-items-center p-2">
+
+            <div class="form-floating col-12 mb-3 text-center">
+                <div class="overlay-container" onclick="UploadFile()">
+                    <input asp-for="CurrentUser.ProfilePicture" class="d-none" />
+                    <img alt="ProfilePicture" src="~/images/@Model.CurrentUser.ProfilePicture" style="width:180px; height:180px; border-radius: 50%;" />
+                    <div class="overlay"><i class="bi bi-upload"></i></div>
+                </div>
+                <input type="file" asp-for="NewProfilePicture" class="d-none" />
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="CurrentUser.Username" class="d-none" />
+
+            <p class="fs-5 text-muted">@@@Model.CurrentUser.Username</p>
+            <div class="form-floating col-12 mb-3">
+                <input type="password" asp-for="NewPassword" class="form-control" placeholder=" " />
+                <label asp-for="NewPassword"></label>
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="text" asp-for="CurrentUser.Name" class="form-control" placeholder=" " />
+                <label asp-for="CurrentUser.Name"></label>
+                <span asp-validation-for="CurrentUser.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="text" asp-for="CurrentUser.Surname" class="form-control" placeholder=" " />
+                <label asp-for="CurrentUser.Surname"></label>
+                <span asp-validation-for="CurrentUser.Surname" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating col-12 mb-3">
+                <select asp-for="CurrentCity.Country" class="form-select">
+                    <option value="">Pick one</option>
+                </select>
+                <label asp-for="CurrentCity.Country"></label>
+                <span asp-validation-for="CurrentCity.Country" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <select asp-for="CurrentCity.Name" class="form-select">
+                    <option value="">Pick a Country</option>
+                </select>
+                <label asp-for="CurrentCity.Name"></label>
+                <span asp-validation-for="CurrentCity.Name" class="text-danger"></span>
+            </div>
+            <div class="col-12 mb-3 text-center">
+                <button type="submit" class="btn yellow-background px-5 py-2">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+<script>
+    let url = "https://" + "@Request.Host.Value" + "/api/"
+
+    async function LoadCities(){
+        let country = document.getElementById("CurrentCity_Country").value
+        let dropdown = document.getElementById("CurrentCity_Name")
+        if(!country){
+            dropdown.innerHTML = ""
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Pick a Country"
+            dropdown.appendChild(defaultOption)
+            return
+        }
+        let response =  await fetch(url+"city?countryName="+country)
+        if(response.ok){
+            let cities = await response.json()
+            dropdown.innerHTML = ""
+
+            let defaultOption = document.createElement("option")
+            defaultOption.value = ""
+            defaultOption.text = "Pick one"
+            dropdown.appendChild(defaultOption)
+
+            for(const city of cities){
+                let option = document.createElement("option")
+                option.value = city
+                option.text = city
+                dropdown.appendChild(option)
+                if(option.text == "@Html.Raw(Model.CurrentCity.Name)"){
+                    option.selected = true;
+                }
+            }
+        }
+    }
+
+
+    document.getElementById("CurrentCity_Country").addEventListener("change", LoadCities)
+
+
+    let dropdown = document.getElementById("CurrentCity_Country")
+    fetch(url+"country")
+    .then(r => r.ok ? r.json(): [])
+    .then(countries => {
+        for(const country of countries){
+                let option = document.createElement("option")
+                option.value = country
+                option.text = country
+                dropdown.appendChild(option)
+
+                if(option.text == "@Html.Raw(Model.CurrentCity.Country)"){
+                    option.selected = true;
+                    var event = new Event('change', {
+                        bubbles: true,
+                        cancelable: true,
+                    });
+                    dropdown.dispatchEvent(event)
+                }
+            }
+    })
+
+</script>
+
+<script>
+    function UploadFile(){
+        let input = document.getElementById("NewProfilePicture")
+        input.click()
+
+    }
+</script>
+
+<partial name="_ValidationScriptsPartial" />
+}

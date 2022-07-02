@@ -1,0 +1,36 @@
+﻿@page
+@model BirthdayApp.Web.Pages.Account.LoginModel
+@{
+}
+<div class="row justify-content-center">
+
+    <form method="post" class="col-lg-6 col-md-8 mt-5">
+        <div class="card p-3" >
+            <div class="col-12 text-center mt-3 mb-4">
+                <img alt="BirthdayCake" src="~/birthday-cake.png" style="width:96px; height:96px;" />
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="text" asp-for="Credentials.Username" class="form-control" placeholder=" " />
+                <label asp-for="Credentials.Username"></label>
+                <span asp-validation-for="Credentials.Username" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-12 mb-3">
+                <input type="password" asp-for="Credentials.Password" class="form-control" placeholder=" " />
+                <label asp-for="Credentials.Password"></label>
+                <span asp-validation-for="Credentials.Password" class="text-danger"></span>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input pink" type="checkbox" asp-for="RememberMe" checked />
+                <label class="form-check-label" asp-for="RememberMe">
+                    Remember Me
+                </label>
+            </div>
+            <div class="col-12 mb-3 text-center">
+                <button type="submit" class="btn pink-background px-5 py-2">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+<partial name="_ValidationScriptsPartial" />
+}

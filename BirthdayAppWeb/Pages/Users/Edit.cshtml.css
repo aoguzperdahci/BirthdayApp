@@ -1,0 +1,30 @@
+﻿.overlay {
+    position: absolute;
+    height: 182px;
+    width: 182px;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #E9C278;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.overlay-container {
+    width: 180px;
+    height: 180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .overlay-container:hover .overlay {
+        opacity: 1;
+    }
+
+i {
+    font-size: 48px;
+    position: absolute;
+    top: 54px;
+    left: 66px;
+}

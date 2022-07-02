@@ -1,0 +1,43 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #F9FBFC;
+}
+
+.pink-background {
+    background-color: #EAA895 !important;
+}
+
+.yellow-background {
+    background-color: #E9C278 !important;
+}
+
+.pink-color {
+    color: #EAA895 !important;
+}
+
+.yellow-color {
+    color: #E9C278 !important;
+}
+
+input[type="checkbox"].pink {
+    border-color: #EAA895 !important;
+}
+
+    input[type="checkbox"].pink:checked {
+        background-color: #EAA895 !important;
+    }

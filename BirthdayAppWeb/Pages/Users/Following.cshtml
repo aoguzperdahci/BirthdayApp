@@ -1,0 +1,45 @@
+﻿@page
+@model BirthdayApp.Web.Pages.Users.FollowingModel
+@{
+}
+<div class="row mt-2">
+    @if (Model.Follows.Count() == 0)
+    {
+        <p class="fs-2 text-center ">You are not following anyone yet</p>
+    }
+    else
+    {
+        @foreach (var user in Model.Follows)
+        {
+            <div class="col-md-6 px-1">
+                <div class="card mb-2">
+                    <a asp-page="/Users/Profile" asp-route-username="@user.Username" class="text-decoration-none text-black">
+                    <div class="card-body row" >
+                        <div class="col-2">
+                            <img alt="ProfilePicture" src="~/images/@user.ProfilePicture" style="max-width:inherit; border-radius:50%;" />
+
+                        </div>
+                        <div class="col-10">
+                            <p class="fs-4 card-title">@user.Name @user.Surname '@user.CalculateAge()</p>
+                            @if (user.CalculateNextBirthday() == 0)
+                            {
+                                if (user.Gender == Core.Constants.Gender.Male)
+                                {
+                                    <p class="fs-5 card-text">Today is his birthday!</p>
+                                }
+                                else
+                                {
+                                    <p class="fs-5 card-text">Today is her birthday!</p>
+                                }
+                            }
+                            else
+                            {
+                                <p class="fs-5 card-text">Next birthday is in @user.CalculateNextBirthday() days</p>
+                            }
+                        </div>
+                    </div></a>
+                </div>
+            </div>
+        }
+    }
+</div>
